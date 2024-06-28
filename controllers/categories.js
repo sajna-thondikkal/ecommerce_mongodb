@@ -1,6 +1,8 @@
 const categoryRepositories = require('../repositories/categories');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
+const isValidObjId = require('../utils/validateObjId');
+
 
 // find all categories
 const findAllCategories = asyncHandler(async(req,res,next)=>{
@@ -11,12 +13,12 @@ const findAllCategories = asyncHandler(async(req,res,next)=>{
 // find category by id
 const findCategoryById = asyncHandler(async(req,res,next)=>{
     const id = req.params.id;
-    const category = await categoryRepositories.findCategoryById(id);
-    if(category){
-        return res.status(200).json({"success":true,"Data":category});
+    const isValid = isValidObjId(id);
+    if(isValid){
+        const category = await categoryRepositories.findCategoryById(id);
+        res.status(200).json({"success":true,"Data":category});
     }
-    next(new ErrorResponse("Category not found",404));
-
+    next(new ErrorResponse("Category id not valid",404));
 })
 
 // create category

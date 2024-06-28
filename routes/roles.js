@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const roleControllers = require('../controllers/roles');
+const { verifyTokenHandler} = require('../middlewares/jwtHandler.js');
+const {verifyRoles} = require('../middlewares/verifyRoles.js');
 
 // get all roles
 router.get('/',roleControllers.getAllRoles);
@@ -9,12 +11,12 @@ router.get('/',roleControllers.getAllRoles);
 router.get('/:id',roleControllers.getRoleById);
 
 // create role
-router.post('/',roleControllers.createRole);
+router.post('/',[verifyTokenHandler,verifyRoles(['admin'])],roleControllers.createRole);
 
 // update role
-router.put('/:id',roleControllers.updateRole);
+router.put('/:id',[verifyTokenHandler,verifyRoles(['admin'])],roleControllers.updateRole);
 
 // delete role
-router.delete('/:id',roleControllers.deleteRole);
+router.delete('/:id',[verifyTokenHandler,verifyRoles(['admin'])],roleControllers.deleteRole);
 
 module.exports = router;

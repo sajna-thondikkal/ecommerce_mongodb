@@ -4,9 +4,7 @@ const Product = require('../models/products');
 // get all products
 function getAllProducts(){
     return new Promise((resolve,reject)=>{
-        Product.find().populate('category_name')
-        .populate('brand_name')
-        .then((result) => {
+        Product.find().populate('brand_name').populate('category_name').then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);
@@ -17,7 +15,7 @@ function getAllProducts(){
 // get product by id
 function getProductById(id){
     return new Promise((resolve,reject)=>{
-        Product.findById(id).populate('category_name','brand_name').then((result) => {
+        Product.findById(id).populate('brand_name').populate('category_name').then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);
@@ -37,9 +35,9 @@ function createProdcut(product_name,brand_name,price,offerPrice){
 }
 
 // update product
-function updateProduct(id,product_name,brand_name){
+function updateProduct(id,product_name,brand_name,price,offerPrice){
     return new Promise((resolve,reject)=>{
-        Product.findByIdAndUpdate(id,product_name,brand_name).then((result) => {
+        Product.findByIdAndUpdate(id,{product_name,brand_name,price,offerPrice}).then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);

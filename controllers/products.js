@@ -37,11 +37,11 @@ const createProduct = asyncHandler(async(req,res,next)=>{
 // update product
 const updateProduct = asyncHandler(async(req,res,next)=>{
     const id = req.params.id;
-    const product_name = req.body;
-    const brand_name = req.body;
+    const {product_name,brand_name,price} = req.body;
+    const offerPrice = findOfferPrice(price);
     const validId= isValidObjId(id);
     if(validId){
-        const updateProduct = await productRepositories.updateProduct(id,product_name,brand_name);
+        const updateProduct = await productRepositories.updateProduct(id,product_name,brand_name,price,offerPrice);
         const updated = await productRepositories.getProductById(id);
         res.status(200).json({"success":true,"Updated Product":updated});
     }

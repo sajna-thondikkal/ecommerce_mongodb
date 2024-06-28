@@ -3,7 +3,7 @@ const Order = require('../models/orders');
 // get all orders
 function getAllOrders(){
     return new Promise((resolve,reject)=>{
-        Order.find().populate('item_name').then((result) => {
+        Order.find().populate('order_line_item.item_name').then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);
@@ -14,7 +14,7 @@ function getAllOrders(){
 // get order by id
 function getOrderById(id){
     return new Promise((resolve,reject)=>{
-        Order.findById(id).then((result) => {
+        Order.findById(id).populate('order_line_item.item_name').then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);
@@ -34,9 +34,9 @@ function createOrder(orderObj){
 }
 
 // update order
-function updateOrder(id,item_name,item_quantity,total){
+function updateOrder(id,user_id,order_line_item,grand_total){
     return new Promise((resolve,reject)=>{
-        Order.findByIdAndUpdate(id,item_name,item_quantity,total).then((result) => {
+        Order.findByIdAndUpdate(id,{user_id,order_line_item,grand_total}).then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);
