@@ -2,7 +2,7 @@ const productRepositories = require('../repositories/products');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/asyncHandler');
 const isValidObjId = require('../utils/validateObjId');
-const findOfferPrice  = require('../services/offerPrice.js')
+const productServices = require('../services/products');
 
 
 
@@ -26,7 +26,7 @@ const getProductById = asyncHandler(async(req,res,next)=>{
 // create product
 const createProduct = asyncHandler(async(req,res,next)=>{
     const {product_name,brand_name,price} = req.body;
-    const offerPrice = findOfferPrice(price);
+    const offerPrice = await productServices.findOfferPrice(price);
     const newProduct = await productRepositories.createProdcut(product_name,brand_name,price,offerPrice);
     if(newProduct){
         res.status(200).json({"success":true,"New Product":newProduct});

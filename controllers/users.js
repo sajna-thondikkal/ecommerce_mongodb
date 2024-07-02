@@ -19,6 +19,7 @@ const getAllUsers = asyncHandler(async (req,res,next)=>{
     }
 });
 
+
 // get user by id
 const getUserById = asyncHandler(async (req,res,next)=>{
     const id = req.params.id;
@@ -28,6 +29,7 @@ const getUserById = asyncHandler(async (req,res,next)=>{
     }
     next(new ErrorResponse("user not found",404));
 });
+
 
 // get user by userName
 const loginUser = asyncHandler(async(req,res,next)=>{
@@ -43,6 +45,7 @@ const loginUser = asyncHandler(async(req,res,next)=>{
     }
     next(new ErrorResponse("User not found"));
 })
+
 
 // get user role by user id
 const getUserRoleByUserId = asyncHandler(async(req,res,next)=>{
@@ -66,6 +69,7 @@ const createUser = asyncHandler(async(req,res,next)=>{
     return res.status(200).json({"Message":"User Signed Up Successfully"," User Name":newUser.user_name,"Token":token});
 })
 
+
 // update user
 const updateUser = asyncHandler(async(req,res,next)=>{
     const id = req.params.id;
@@ -81,6 +85,7 @@ const updateUser = asyncHandler(async(req,res,next)=>{
     const updated = await userRepository.getUserById(id)
     res.status(200).json({"success":true,"Updated User":updated});
 })
+
 
 // delete user
 const deleteUser = asyncHandler(async(req,res,next)=>{

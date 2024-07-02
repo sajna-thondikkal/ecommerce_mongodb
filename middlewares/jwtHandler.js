@@ -7,11 +7,8 @@ const verifyTokenHandler =async (req,res,next)=>{
     if(token && token.includes('Bearer')){
         try {
             const result = await verifyToken(token);
-            console.log("message from jwthndlr toknhndlr",result);
             const userid = result.userid;
-            console.log("message from jwthndlr toknhndlr",userid);
             req.userid = userid;
-            console.log("message from jwthndlr toknhndlr",req.userid);
             return next();
         } catch (error) {
             return res.status(401).json({message:'Invalid token'});
